@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoppinglist</title>
+    <link rel="stylesheet" href="shoppinglist.css">
+    <script src="shoppinglist.js"></script>
+</head>
+
+<body>
+    <h1>Meine Einkaufsliste</h1>
+    <p id="info">Füge deiner Einkaufsliste Produkte hinzu die du benötigst!</p>
+    <div id="list">
+        <table>
+            <tr>
+                <th>Produkt</th>
+                <th>Menge</th>
+                <th>Zuletzt gekauft am</th>
+                <th>Kommentare</th>
+                <th>Kaufen</th>
+                <th>Gekauft</th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="Produkt" placeholder="type here" required id="product" />
+                    <hr />
+                </td>
+                <td><input type="number" name="Menge" step="1" min="0" max="30" value="0" id="amount" />
+                    <hr />
+                </td>
+                <td><input type="date" name="Date" id="date" /></td>
+                <td><textarea name="Kommentare" rows="3" placeholder="long text here" id="comments"></textarea></td>
+                <td><input type="checkbox" name="Kaufen" value="check1" id="check1" />
+                </td>
+                <td><input type="checkbox" name="Erledigt" value="check2" id="check2" /></td>
+            </tr>
+        </table>
+
+
+
+</body>
+
+</html>
