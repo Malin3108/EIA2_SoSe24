@@ -1,15 +1,15 @@
 namespace Ententeich {
-    export class Bush{
+    export class Grass{
         position: Vector;
         color: string;
         size: Vector;
     
         constructor (){
-            console.log("Bush Constructor")
+            console.log("Grass Constructor")
         }
     
         draw():void{
-            console.log("Bush draw")
+            console.log("Grass draw")
         }
     
         }
