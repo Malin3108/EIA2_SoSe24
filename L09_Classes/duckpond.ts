@@ -1,29 +1,71 @@
 namespace Ententeich {
-
-
     window.addEventListener("load", handleLoad)
-    export let crc2: CanvasRenderingContext2D;
 
+    export let crc2: CanvasRenderingContext2D;
+    let clouds: Cloud[] = [];
+    let bushes: Bush[] = [];
+    let trees: Tree[] = [];
+    let ducks: Duck[] = [];
+    let bees: Bee[] = [];
+    
+    
     function handleLoad(_event: Event): void {
         let canvas: HTMLCanvasElement | null = document.querySelector("canvas");
         if (!canvas)
             return;
         crc2 = <CanvasRenderingContext2D>canvas.getContext("2d");
 
-        drawBackground();
-        drawHills();
-        drawCloud();
-        drawNewCloud();
-        drawHut();
-        drawTree();
-        drawPond();
-        drawBush();
-        drawNewBush();
+    
+        for (let i: number = 0; i < 10; i++) {
+            let cloud: Cloud = new Cloud(Math.random() * 500, Math.random() * 200);
+            clouds.push(cloud);
+        }
+        let tree: Tree = new Tree(320, 370);
+        tree.draw();
+        trees.push(tree);
 
+        let bush: Bush = new Bush(310, 580);
+        bush.draw();
+        bushes.push(bush);
+        
+        drawBackground();
+        setInterval(animate, 40);
+
+        let duck: Duck = new Duck(10, 405, "yellow");
+        duck.draw();
+        ducks.push(duck);
+
+        let duck2: Duck = new Duck(100, 440, "orange");
+        duck.draw();
+        ducks.push(duck2);
+
+        let bee: Bee = new Bee(10, 600, "yellow");
+        bee.draw();
+        bees.push(bee);
+    }
+
+    function animate(): void {
+        drawBackground();
+        for (let i: number = 0; i < 4; i++) {
+            clouds[i].move();
+            clouds[i].draw();
+        }
+        for (let i: number = 0; i < 1; i++) {
+            trees[i].draw();
+        }
+        for (let i: number = 0; i < 1; i++) {
+            bushes[i].draw();
+        }
+        ducks[0].draw();
+        ducks[1].draw();
+        ducks[0].move();
+        ducks[1].move();
+
+        bees[0].draw();
+        bees[0].move();
     }
 
     function drawBackground(): void {
-        console.log("Background");
 
         let gradient: CanvasGradient = crc2.createLinearGradient(0, 0, 0, crc2.canvas.height);
         gradient.addColorStop(0.1, "#2980b9");
@@ -33,11 +75,15 @@ namespace Ententeich {
         crc2.fillStyle = gradient;
         crc2.fillRect(0, 0, crc2.canvas.width, crc2.canvas.height);
 
+
+
+        drawHills();
+        drawPond();
+
     }
     function drawHills(): void {
-        console.log("Mountain");
 
-        let color: string = "darkgreen";
+        let color: string = "darkgrey";
 
         crc2.save();
         crc2.beginPath();
@@ -82,137 +128,10 @@ namespace Ententeich {
             return value / 233280;
         };
     }
-    function drawHut(): void {
-        console.log("House")
-
-        crc2.save();
-        crc2.beginPath();
-        crc2.translate(20, 380);
-        crc2.fillStyle = "beige";
-        crc2.strokeStyle = "black";
-        crc2.beginPath();
-        crc2.moveTo(0, 0);
-        crc2.lineTo(50, 0);
-        crc2.lineTo(50, -50);
-        crc2.lineTo(0, -50);
-        crc2.lineTo(0, 0);
-        crc2.moveTo(0, -50);
-        crc2.lineTo(20, -75);
-        crc2.lineTo(70, -75);
-        crc2.lineTo(50, -50);
-        crc2.moveTo(50, -50);
-        crc2.lineTo(80, -60);
-        crc2.lineTo(70, -75);
-        crc2.moveTo(80, -60);
-        crc2.lineTo(80, -20);
-        crc2.lineTo(50, 0);
-        crc2.lineTo(50, -50);
-        crc2.closePath();
-        crc2.fill();
-        crc2.stroke();
-        crc2.restore();
-
-        crc2.save();
-        crc2.beginPath();
-        crc2.translate(82, 372);
-        crc2.fillStyle = "black";
-        crc2.strokeStyle = "black";
-        crc2.moveTo(0, 0);
-        crc2.lineTo(10, -6);
-        crc2.lineTo(10, -40);
-        crc2.lineTo(0, -35);
-        crc2.closePath();
-        crc2.fill();
-        crc2.stroke();
-        crc2.restore();
-    }
-    function drawTree(): void {
-        console.log("Tree draw");
-
-        crc2.save();
-        crc2.translate(390, 320);
-        crc2.fillStyle = "brown";
-        crc2.beginPath();
-        crc2.moveTo(10, 40);
-        crc2.lineTo(-70, 30);
-        crc2.lineTo(-48, -20);
-        crc2.lineTo(-45, -30);
-        crc2.lineTo(-40, -100);
-        crc2.lineTo(-200, -120);
-        crc2.lineTo(-100, -120);
-        crc2.lineTo(-100, -170);
-        crc2.lineTo(-60, -110);
-        crc2.lineTo(-50, -150);
-        crc2.lineTo(-100, -170);
-        crc2.lineTo(-140, -170);
-        crc2.lineTo(-100, -180);
-        crc2.lineTo(-140, -190);
-        crc2.lineTo(-100, -185);
-        crc2.lineTo(-65, -170);
-        crc2.lineTo(-20, -140);
-        crc2.lineTo(-20, -150);
-        crc2.lineTo(-150, -250);
-        crc2.lineTo(-90, -220);
-        crc2.lineTo(-30, -190);
-        crc2.lineTo(0, -230);
-        crc2.lineTo(0, -200);
-        crc2.lineTo(-5, -150);
-        crc2.lineTo(0, -160);
-        crc2.lineTo(0, -130);
-        crc2.lineTo(-5, -100);
-        crc2.fill();
-        crc2.restore();
-    }
-    function drawCloud(): void {
-        console.log("Forrest");
-
-        let numberOfParticles: number = 90; 
-        let cloudWidth: number = 170; 
-        let cloudHeight: number = 50; 
-        let xPosition: number = 120; 
-        let yPosition: number = 90; 
-        let random = pseudoRandom(42)
-
-        for (let i = 0; i < numberOfParticles; i++) {
-            let x = xPosition + (i * (cloudWidth / numberOfParticles)); 
-            let y = yPosition + (random() * cloudHeight); 
-            drawCloudParticle(x, y); 
-        }
-    }
-    function drawNewCloud(): void {
-        console.log("Forrest");
-
-        let numberOfParticles: number = 30; 
-        let cloudWidth: number = 100; 
-        let cloudHeight: number = 20; 
-        let xPosition: number = 0; 
-        let yPosition: number = 160; 
-        let random = pseudoRandom(42)
-
-        for (let i = 0; i < numberOfParticles; i++) {
-            let x = xPosition + (i * (cloudWidth / numberOfParticles)); 
-            let y = yPosition + (random() * cloudHeight); 
-            drawCloudParticle(x, y); 
-        }
-    }
-    function drawCloudParticle(x: number, y: number): void {
-        let gradient = crc2.createRadialGradient(x, y, 0, x, y, 15);
-
-        
-        gradient.addColorStop(0, "white"); 
-        gradient.addColorStop(1, "rgba(255, 255, 255, 0)"); 
-
-        crc2.save();
-        crc2.beginPath();
-        crc2.arc(x, y, 15, 0, Math.PI * 2); 
-        crc2.fillStyle = gradient; 
-        crc2.fill();
-        crc2.restore();
-    }
     function drawPond(): void {
 
-        let centerX = 220; 
-        let centerY = 490; 
+        let centerX = 220;
+        let centerY = 490;
         let radiusX = 290;
         let radiusY = 120;
 
@@ -224,46 +143,7 @@ namespace Ententeich {
         crc2.fill();
         crc2.restore();
     }
-    function drawBush(): void {
-        
-
-        let numberOfParticles: number = 50; 
-        let cloudWidth: number = 80; 
-        let cloudHeight: number = 70; 
-        let xPosition: number = 310; 
-        let yPosition: number = 590; 
-        let random = pseudoRandom(42)
-
-        for (let i = 0; i < numberOfParticles; i++) {
-            let x = xPosition + (i * (cloudWidth / numberOfParticles)); 
-            let y = yPosition + (random() * cloudHeight); 
-            drawBushParticle(x, y); 
-        }
-    }
-    function drawNewBush(): void {
-        console.log("Forrest");
-
-        let numberOfParticles: number = 80; 
-        let cloudWidth: number = 100; 
-        let cloudHeight: number = 70; 
-        let xPosition: number = 0; 
-        let yPosition: number = 560; 
-        let random = pseudoRandom(42)
-
-        for (let i = 0; i < numberOfParticles; i++) {
-            let x = xPosition + (i * (cloudWidth / numberOfParticles)); 
-            let y = yPosition + (random() * cloudHeight); 
-            drawBushParticle(x, y); 
-        }
-    }
-
-    function drawBushParticle(x: number, y: number): void {
-
-        crc2.save();
-        crc2.beginPath();
-        crc2.arc(x, y, 15, 0, Math.PI * 2); 
-        crc2.fillStyle = "#006400";
-        crc2.fill();
-        crc2.restore();
-    }
+    
 }
+
+

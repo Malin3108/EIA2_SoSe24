@@ -2,37 +2,30 @@
 var Ententeich;
 (function (Ententeich) {
     class Cloud {
-        position;
-        color;
-        size;
-        constructor() {
-            console.log("Cloud Constructor");
+        x;
+        y;
+        constructor(_x, _y) {
+            this.x = _x;
+            this.y = _y;
         }
         move() {
-            console.log("Cloud move");
-        }
-        draw() {
-            console.log("Cloud draw");
-            let numberOfParticles = 50;
-            let cloudWidth = 120;
-            let cloudHeight = 40;
-            let xPosition = 40;
-            let yPosition = 50;
-            let random = Ententeich.pseudoRandom(42);
-            for (let i = 0; i < numberOfParticles; i++) {
-                let x = xPosition + (i * (cloudWidth / numberOfParticles));
-                let y = yPosition + (random() * cloudHeight);
-                this.drawCloudParticle(x, y);
+            this.x += 1;
+            if (this.x > Ententeich.crc2.canvas.width) {
+                this.x = -100;
             }
         }
-        drawCloudParticle(x, y) {
-            let gradient = Ententeich.crc2.createRadialGradient(x, y, 0, x, y, 15);
-            gradient.addColorStop(0, "white");
-            gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+        draw() {
             Ententeich.crc2.save();
+            Ententeich.crc2.translate(this.x, this.y);
             Ententeich.crc2.beginPath();
-            Ententeich.crc2.arc(x, y, 15, 0, Math.PI * 2);
-            Ententeich.crc2.fillStyle = gradient;
+            Ententeich.crc2.moveTo(150, 0);
+            Ententeich.crc2.lineTo(0, 0);
+            Ententeich.crc2.ellipse(50, 0, 40, 30, 0, Math.PI, 0, false);
+            Ententeich.crc2.ellipse(100, 0, 60, 60, 0, Math.PI, 0, false);
+            Ententeich.crc2.ellipse(170, 0, 50, 30, 0, Math.PI, 0, false);
+            Ententeich.crc2.closePath();
+            let cloudColor = "white";
+            Ententeich.crc2.fillStyle = cloudColor;
             Ententeich.crc2.fill();
             Ententeich.crc2.restore();
         }
