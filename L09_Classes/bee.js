@@ -13,8 +13,9 @@ var Ententeich;
         }
         move() {
             this.x += 1;
+            this.y -= 1;
             if (this.x > Ententeich.crc2.canvas.width) {
-                this.x = 100;
+                this.x = 0;
             }
         }
         draw() {

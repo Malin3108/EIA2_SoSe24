@@ -33,6 +33,9 @@ var Ententeich;
         let bee = new Ententeich.Bee(10, 600, "yellow");
         bee.draw();
         bees.push(bee);
+        let bee2 = new Ententeich.Bee(0, 500, "yellow");
+        bee.draw();
+        bees.push(bee2);
     }
     function animate() {
         drawBackground();
@@ -52,6 +55,8 @@ var Ententeich;
         ducks[1].move();
         bees[0].draw();
         bees[0].move();
+        bees[1].draw();
+        bees[1].move();
     }
     function drawBackground() {
         let gradient = Ententeich.crc2.createLinearGradient(0, 0, 0, Ententeich.crc2.canvas.height);

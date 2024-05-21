@@ -42,6 +42,10 @@ namespace Ententeich {
         let bee: Bee = new Bee(10, 600, "yellow");
         bee.draw();
         bees.push(bee);
+
+        let bee2: Bee = new Bee(0, 500, "yellow");
+        bee.draw();
+        bees.push(bee2);
     }
 
     function animate(): void {
@@ -63,6 +67,8 @@ namespace Ententeich {
 
         bees[0].draw();
         bees[0].move();
+        bees[1].draw();
+        bees[1].move();
     }
 
     function drawBackground(): void {
