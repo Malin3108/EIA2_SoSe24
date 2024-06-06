@@ -2,73 +2,51 @@ namespace Ententeich {
     window.addEventListener("load", handleLoad)
 
     export let crc2: CanvasRenderingContext2D;
-    let clouds: Cloud[] = [];
-    let bushes: Bush[] = [];
-    let trees: Tree[] = [];
-    let ducks: Duck[] = [];
-    let bees: Bee[] = [];
-    
-    
+    let moveables: Moveable[] = [];
+
+
+
     function handleLoad(_event: Event): void {
         let canvas: HTMLCanvasElement | null = document.querySelector("canvas");
         if (!canvas)
             return;
         crc2 = <CanvasRenderingContext2D>canvas.getContext("2d");
 
-    
-        for (let i: number = 0; i < 10; i++) {
-            let cloud: Cloud = new Cloud(Math.random() * 500, Math.random() * 200);
-            clouds.push(cloud);
-        }
-        let tree: Tree = new Tree(320, 370);
-        tree.draw();
-        trees.push(tree);
 
-        let bush: Bush = new Bush(310, 580);
-        bush.draw();
-        bushes.push(bush);
+        for (let i: number = 0; i < 6; i++) {
+            let cloud: Cloud = new Cloud(Math.random() * 500, Math.random() * 200, "white");
+            moveables.push(cloud);
+        }
         
+
         drawBackground();
         setInterval(animate, 40);
 
         let duck: Duck = new Duck(10, 405, "yellow");
         duck.draw();
-        ducks.push(duck);
+        moveables.push(duck);
 
         let duck2: Duck = new Duck(100, 440, "orange");
         duck.draw();
-        ducks.push(duck2);
+        moveables.push(duck2);
 
         let bee: Bee = new Bee(10, 600, "yellow");
         bee.draw();
-        bees.push(bee);
+        moveables.push(bee);
 
         let bee2: Bee = new Bee(0, 500, "yellow");
         bee.draw();
-        bees.push(bee2);
+        moveables.push(bee2);
     }
 
     function animate(): void {
         drawBackground();
-        for (let i: number = 0; i < 4; i++) {
-            clouds[i].move();
-            clouds[i].draw();
+        for (let i: number = 0; i < moveables.length; i++) {
+            moveables[i].move();
+            moveables[i].draw();
+              
         }
-        for (let i: number = 0; i < 1; i++) {
-            trees[i].draw();
-        }
-        for (let i: number = 0; i < 1; i++) {
-            bushes[i].draw();
-        }
-        ducks[0].draw();
-        ducks[1].draw();
-        ducks[0].move();
-        ducks[1].move();
-
-        bees[0].draw();
-        bees[0].move();
-        bees[1].draw();
-        bees[1].move();
+        drawTree();
     }
 
     function drawBackground(): void {
@@ -85,6 +63,7 @@ namespace Ententeich {
 
         drawHills();
         drawPond();
+        drawBush();
 
     }
     function drawHills(): void {
@@ -149,7 +128,52 @@ namespace Ententeich {
         crc2.fill();
         crc2.restore();
     }
-    
+    function drawTree(): void {
+        let treepositions: number[][] = [[320, 370], [280, 360], [50, 340], [20, 350]]
+        for (let i: number = 0; i < treepositions.length; i++) {
+
+            crc2.save();
+            crc2.translate(treepositions[i][0],treepositions[i][1]);
+
+
+            crc2.fillStyle = "brown";
+            crc2.fillRect(-10, 0, 20, -60);
+
+
+            crc2.fillStyle = "darkgreen";
+            for (let i = 0; i < 3; i++) {
+                crc2.beginPath();
+                crc2.arc(0, -60 - (i * 30), 40, 0, Math.PI * 2);
+                crc2.fill();
+            }
+
+            crc2.restore();
+
+        }
+
+    }
+    function drawBush(): void {
+    let numberOfParticles: number = 50;
+    let bushWidth: number = 80;
+    let bushHeight: number = 70;
+    let xPosition: number = 310;
+    let yPosition: number = 590;
+    let random = pseudoRandom(42);
+
+    for (let i = 0; i < numberOfParticles; i++) {
+        let x = xPosition + (i * (bushWidth / numberOfParticles));
+        let y = yPosition + (random() * bushHeight);
+        drawBushParticle(x, y);
+    }
 }
 
+function drawBushParticle(x: number, y: number): void {
+    crc2.save();
+    crc2.beginPath();
+    crc2.arc(x, y, 15, 0, Math.PI * 2);
+    crc2.fillStyle = "#006400";
+    crc2.fill();
+    crc2.restore();
+}
+}
 

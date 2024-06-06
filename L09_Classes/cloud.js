@@ -1,18 +1,9 @@
 "use strict";
 var Ententeich;
 (function (Ententeich) {
-    class Cloud {
-        x;
-        y;
-        constructor(_x, _y) {
-            this.x = _x;
-            this.y = _y;
-        }
-        move() {
-            this.x += 1;
-            if (this.x > Ententeich.crc2.canvas.width) {
-                this.x = -100;
-            }
+    class Cloud extends Ententeich.Moveable {
+        constructor(_x, _y, _color) {
+            super(_x, _y, _color);
         }
         draw() {
             Ententeich.crc2.save();
@@ -24,7 +15,7 @@ var Ententeich;
             Ententeich.crc2.ellipse(100, 0, 60, 60, 0, Math.PI, 0, false);
             Ententeich.crc2.ellipse(170, 0, 50, 30, 0, Math.PI, 0, false);
             Ententeich.crc2.closePath();
-            let cloudColor = "white";
+            let cloudColor = this.color;
             Ententeich.crc2.fillStyle = cloudColor;
             Ententeich.crc2.fill();
             Ententeich.crc2.restore();

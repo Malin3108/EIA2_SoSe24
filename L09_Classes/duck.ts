@@ -1,21 +1,8 @@
 namespace Ententeich {
-    export class Duck {
-        x: number;
-        y: number;
-        color: string;
+    export class Duck extends Moveable{
         
         constructor(_x: number, _y: number, _color: string) {
-            this.x = _x;
-            this.y = _y;
-            this.color = _color
-
-            this.draw();
-        }
-        move(){
-            this.x += 1
-            if (this.x > crc2.canvas.width) {
-                this.x = 0;
-            }
+            super(_x,_y,_color)
         }
 
         draw(): void{

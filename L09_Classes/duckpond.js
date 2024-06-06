@@ -2,61 +2,38 @@
 var Ententeich;
 (function (Ententeich) {
     window.addEventListener("load", handleLoad);
-    let clouds = [];
-    let bushes = [];
-    let trees = [];
-    let ducks = [];
-    let bees = [];
+    let moveables = [];
     function handleLoad(_event) {
         let canvas = document.querySelector("canvas");
         if (!canvas)
             return;
         Ententeich.crc2 = canvas.getContext("2d");
-        for (let i = 0; i < 10; i++) {
-            let cloud = new Ententeich.Cloud(Math.random() * 500, Math.random() * 200);
-            clouds.push(cloud);
+        for (let i = 0; i < 6; i++) {
+            let cloud = new Ententeich.Cloud(Math.random() * 500, Math.random() * 200, "white");
+            moveables.push(cloud);
         }
-        let tree = new Ententeich.Tree(320, 370);
-        tree.draw();
-        trees.push(tree);
-        let bush = new Ententeich.Bush(310, 580);
-        bush.draw();
-        bushes.push(bush);
         drawBackground();
         setInterval(animate, 40);
         let duck = new Ententeich.Duck(10, 405, "yellow");
         duck.draw();
-        ducks.push(duck);
+        moveables.push(duck);
         let duck2 = new Ententeich.Duck(100, 440, "orange");
         duck.draw();
-        ducks.push(duck2);
+        moveables.push(duck2);
         let bee = new Ententeich.Bee(10, 600, "yellow");
         bee.draw();
-        bees.push(bee);
+        moveables.push(bee);
         let bee2 = new Ententeich.Bee(0, 500, "yellow");
         bee.draw();
-        bees.push(bee2);
+        moveables.push(bee2);
     }
     function animate() {
         drawBackground();
-        for (let i = 0; i < 4; i++) {
-            clouds[i].move();
-            clouds[i].draw();
+        for (let i = 0; i < moveables.length; i++) {
+            moveables[i].move();
+            moveables[i].draw();
         }
-        for (let i = 0; i < 1; i++) {
-            trees[i].draw();
-        }
-        for (let i = 0; i < 1; i++) {
-            bushes[i].draw();
-        }
-        ducks[0].draw();
-        ducks[1].draw();
-        ducks[0].move();
-        ducks[1].move();
-        bees[0].draw();
-        bees[0].move();
-        bees[1].draw();
-        bees[1].move();
+        drawTree();
     }
     function drawBackground() {
         let gradient = Ententeich.crc2.createLinearGradient(0, 0, 0, Ententeich.crc2.canvas.height);
@@ -67,6 +44,7 @@ var Ententeich;
         Ententeich.crc2.fillRect(0, 0, Ententeich.crc2.canvas.width, Ententeich.crc2.canvas.height);
         drawHills();
         drawPond();
+        drawBush();
     }
     function drawHills() {
         let color = "darkgrey";
@@ -122,6 +100,43 @@ var Ententeich;
         Ententeich.crc2.ellipse(centerX, centerY, radiusX, radiusY, 0, 0, 2 * Math.PI);
         Ententeich.crc2.closePath();
         Ententeich.crc2.fillStyle = "blue";
+        Ententeich.crc2.fill();
+        Ententeich.crc2.restore();
+    }
+    function drawTree() {
+        let treepositions = [[320, 370], [280, 360], [50, 340], [20, 350]];
+        for (let i = 0; i < treepositions.length; i++) {
+            Ententeich.crc2.save();
+            Ententeich.crc2.translate(treepositions[i][0], treepositions[i][1]);
+            Ententeich.crc2.fillStyle = "brown";
+            Ententeich.crc2.fillRect(-10, 0, 20, -60);
+            Ententeich.crc2.fillStyle = "darkgreen";
+            for (let i = 0; i < 3; i++) {
+                Ententeich.crc2.beginPath();
+                Ententeich.crc2.arc(0, -60 - (i * 30), 40, 0, Math.PI * 2);
+                Ententeich.crc2.fill();
+            }
+            Ententeich.crc2.restore();
+        }
+    }
+    function drawBush() {
+        let numberOfParticles = 50;
+        let bushWidth = 80;
+        let bushHeight = 70;
+        let xPosition = 310;
+        let yPosition = 590;
+        let random = pseudoRandom(42);
+        for (let i = 0; i < numberOfParticles; i++) {
+            let x = xPosition + (i * (bushWidth / numberOfParticles));
+            let y = yPosition + (random() * bushHeight);
+            drawBushParticle(x, y);
+        }
+    }
+    function drawBushParticle(x, y) {
+        Ententeich.crc2.save();
+        Ententeich.crc2.beginPath();
+        Ententeich.crc2.arc(x, y, 15, 0, Math.PI * 2);
+        Ententeich.crc2.fillStyle = "#006400";
         Ententeich.crc2.fill();
         Ententeich.crc2.restore();
     }

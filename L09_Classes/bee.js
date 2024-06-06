@@ -1,15 +1,9 @@
 "use strict";
 var Ententeich;
 (function (Ententeich) {
-    class Bee {
-        x;
-        y;
-        color;
+    class Bee extends Ententeich.Moveable {
         constructor(_x, _y, _color) {
-            this.x = _x;
-            this.y = _y;
-            this.color = _color;
-            this.draw();
+            super(_x, _y, _color);
         }
         move() {
             this.x += 1;

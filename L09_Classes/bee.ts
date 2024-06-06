@@ -1,15 +1,9 @@
 namespace Ententeich {
-    export class Bee {
-        x: number;
-        y: number;
-        color: string;
+    export class Bee extends Moveable{
+        
 
         constructor(_x: number, _y: number, _color: string) {
-            this.x = _x;
-            this.y = _y;
-            this.color = _color
-
-            this.draw();
+            super(_x,_y,_color)
         }
         move() {
             this.x += 1
