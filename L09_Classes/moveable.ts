@@ -1,8 +1,8 @@
 namespace Ententeich {
-    export class Moveable {
-        x: number;
-        y: number;
-        color: string;
+    export abstract class Moveable {
+        public x: number;
+        public y: number;
+        protected color: string;
 
         constructor(_x: number, _y: number, _color: string) {
             this.x = _x;

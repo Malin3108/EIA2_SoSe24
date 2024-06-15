@@ -12,8 +12,16 @@ var Ententeich;
             let cloud = new Ententeich.Cloud(Math.random() * 500, Math.random() * 200, "white");
             moveables.push(cloud);
         }
+        canvas.addEventListener("pointerdown", createBabyduck);
         drawBackground();
         setInterval(animate, 40);
+        /* let babyduck: Babyduck = new Babyduck(10, 480, "red")
+        babyduck.draw();
+        moveables.push(babyduck);
+
+        let babyduck2: Babyduck = new Babyduck(50, 480, "red")
+        babyduck2.draw();
+        moveables.push(babyduck2); */
         let duck = new Ententeich.Duck(10, 405, "yellow");
         duck.draw();
         moveables.push(duck);
@@ -139,6 +147,22 @@ var Ententeich;
         Ententeich.crc2.fillStyle = "#006400";
         Ententeich.crc2.fill();
         Ententeich.crc2.restore();
+    }
+    function createBabyduck(_event) {
+        for (let moveable of moveables) {
+            if (moveable instanceof Ententeich.Duck) {
+                let clickX = _event.clientX;
+                let clickY = _event.clientY;
+                if (moveable.x < clickX && clickX < moveable.x + 100 && moveable.y < clickY && clickY < moveable.y + 50) {
+                    let babyduck = new Ententeich.Babyduck(clickX + 10, clickY + 20, "red");
+                    babyduck.draw();
+                    moveables.push(babyduck);
+                    let babyduck2 = new Ententeich.Babyduck(clickX + 30, clickY + 40, "red");
+                    babyduck2.draw();
+                    moveables.push(babyduck2);
+                }
+            }
+        }
     }
 })(Ententeich || (Ententeich = {}));
 //# sourceMappingURL=duckpond.js.map

@@ -17,10 +17,20 @@ namespace Ententeich {
             let cloud: Cloud = new Cloud(Math.random() * 500, Math.random() * 200, "white");
             moveables.push(cloud);
         }
-        
+
+        canvas.addEventListener("pointerdown", createBabyduck)
+
 
         drawBackground();
         setInterval(animate, 40);
+
+        /* let babyduck: Babyduck = new Babyduck(10, 480, "red")
+        babyduck.draw();
+        moveables.push(babyduck);
+
+        let babyduck2: Babyduck = new Babyduck(50, 480, "red")
+        babyduck2.draw();
+        moveables.push(babyduck2); */
 
         let duck: Duck = new Duck(10, 405, "yellow");
         duck.draw();
@@ -44,7 +54,7 @@ namespace Ententeich {
         for (let i: number = 0; i < moveables.length; i++) {
             moveables[i].move();
             moveables[i].draw();
-              
+
         }
         drawTree();
     }
@@ -133,7 +143,7 @@ namespace Ententeich {
         for (let i: number = 0; i < treepositions.length; i++) {
 
             crc2.save();
-            crc2.translate(treepositions[i][0],treepositions[i][1]);
+            crc2.translate(treepositions[i][0], treepositions[i][1]);
 
 
             crc2.fillStyle = "brown";
@@ -153,27 +163,47 @@ namespace Ententeich {
 
     }
     function drawBush(): void {
-    let numberOfParticles: number = 50;
-    let bushWidth: number = 80;
-    let bushHeight: number = 70;
-    let xPosition: number = 310;
-    let yPosition: number = 590;
-    let random = pseudoRandom(42);
+        let numberOfParticles: number = 50;
+        let bushWidth: number = 80;
+        let bushHeight: number = 70;
+        let xPosition: number = 310;
+        let yPosition: number = 590;
+        let random = pseudoRandom(42);
 
-    for (let i = 0; i < numberOfParticles; i++) {
-        let x = xPosition + (i * (bushWidth / numberOfParticles));
-        let y = yPosition + (random() * bushHeight);
-        drawBushParticle(x, y);
+        for (let i = 0; i < numberOfParticles; i++) {
+            let x = xPosition + (i * (bushWidth / numberOfParticles));
+            let y = yPosition + (random() * bushHeight);
+            drawBushParticle(x, y);
+        }
     }
-}
 
-function drawBushParticle(x: number, y: number): void {
-    crc2.save();
-    crc2.beginPath();
-    crc2.arc(x, y, 15, 0, Math.PI * 2);
-    crc2.fillStyle = "#006400";
-    crc2.fill();
-    crc2.restore();
-}
+    function drawBushParticle(x: number, y: number): void {
+        crc2.save();
+        crc2.beginPath();
+        crc2.arc(x, y, 15, 0, Math.PI * 2);
+        crc2.fillStyle = "#006400";
+        crc2.fill();
+        crc2.restore();
+    }
+    function createBabyduck(_event: PointerEvent) {
+        for (let moveable of moveables) {
+            if (moveable instanceof Duck) {
+                let clickX: number = _event.clientX
+                let clickY: number = _event.clientY
+
+                if (moveable.x < clickX && clickX < moveable.x + 100 && moveable.y < clickY && clickY < moveable.y + 50) {
+
+                    let babyduck: Babyduck = new Babyduck(clickX + 10, clickY + 20, "red")
+                    babyduck.draw();
+                    moveables.push(babyduck);
+
+                    let babyduck2: Babyduck = new Babyduck(clickX + 30, clickY + 40, "red")
+                    babyduck2.draw();
+                    moveables.push(babyduck2);
+                }
+            }
+        }
+
+    }
 }
 
