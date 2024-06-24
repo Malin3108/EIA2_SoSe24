@@ -23,8 +23,4 @@ var Ententeich;
     }
     Ententeich.Moveable = Moveable;
 })(Ententeich || (Ententeich = {}));
-/* let m: Moveable = new Moveable();
-let duck: Duck = new Duck();
-let bee: Bee = new Bee();
-let cloud: Cloud = new Cloud(); */ 
 //# sourceMappingURL=moveable.js.map

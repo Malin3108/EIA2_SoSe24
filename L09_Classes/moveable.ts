@@ -22,7 +22,3 @@ namespace Ententeich {
         }
     }
 }
-/* let m: Moveable = new Moveable();
-let duck: Duck = new Duck();
-let bee: Bee = new Bee();
-let cloud: Cloud = new Cloud(); */

@@ -2,7 +2,8 @@
 var Ententeich;
 (function (Ententeich) {
     window.addEventListener("load", handleLoad);
-    let moveables = [];
+    Ententeich.moveables = [];
+    Ententeich.foods = [];
     function handleLoad(_event) {
         let canvas = document.querySelector("canvas");
         if (!canvas)
@@ -10,36 +11,32 @@ var Ententeich;
         Ententeich.crc2 = canvas.getContext("2d");
         for (let i = 0; i < 6; i++) {
             let cloud = new Ententeich.Cloud(Math.random() * 500, Math.random() * 200, "white");
-            moveables.push(cloud);
+            Ententeich.moveables.push(cloud);
         }
         canvas.addEventListener("pointerdown", createBabyduck);
         drawBackground();
         setInterval(animate, 40);
-        /* let babyduck: Babyduck = new Babyduck(10, 480, "red")
-        babyduck.draw();
-        moveables.push(babyduck);
-
-        let babyduck2: Babyduck = new Babyduck(50, 480, "red")
-        babyduck2.draw();
-        moveables.push(babyduck2); */
         let duck = new Ententeich.Duck(10, 405, "yellow");
         duck.draw();
-        moveables.push(duck);
+        Ententeich.moveables.push(duck);
         let duck2 = new Ententeich.Duck(100, 440, "orange");
         duck.draw();
-        moveables.push(duck2);
+        Ententeich.moveables.push(duck2);
         let bee = new Ententeich.Bee(10, 600, "yellow");
         bee.draw();
-        moveables.push(bee);
+        Ententeich.moveables.push(bee);
         let bee2 = new Ententeich.Bee(0, 500, "yellow");
         bee.draw();
-        moveables.push(bee2);
+        Ententeich.moveables.push(bee2);
     }
     function animate() {
         drawBackground();
-        for (let i = 0; i < moveables.length; i++) {
-            moveables[i].move();
-            moveables[i].draw();
+        for (let i = 0; i < Ententeich.moveables.length; i++) {
+            Ententeich.moveables[i].move();
+            Ententeich.moveables[i].draw();
+        }
+        for (let n = 0; n < Ententeich.foods.length; n++) {
+            Ententeich.foods[n].draw();
         }
         drawTree();
     }
@@ -149,19 +146,24 @@ var Ententeich;
         Ententeich.crc2.restore();
     }
     function createBabyduck(_event) {
-        for (let moveable of moveables) {
+        let isBabyduckClicked = false;
+        let clickX = _event.clientX - Ententeich.crc2.canvas.offsetLeft;
+        let clickY = _event.clientY - Ententeich.crc2.canvas.offsetTop;
+        for (let moveable of Ententeich.moveables) {
             if (moveable instanceof Ententeich.Duck) {
-                let clickX = _event.clientX;
-                let clickY = _event.clientY;
                 if (moveable.x < clickX && clickX < moveable.x + 100 && moveable.y < clickY && clickY < moveable.y + 50) {
+                    isBabyduckClicked = true;
                     let babyduck = new Ententeich.Babyduck(clickX + 10, clickY + 20, "red");
-                    babyduck.draw();
-                    moveables.push(babyduck);
+                    Ententeich.moveables.push(babyduck);
                     let babyduck2 = new Ententeich.Babyduck(clickX + 30, clickY + 40, "red");
-                    babyduck2.draw();
-                    moveables.push(babyduck2);
+                    Ententeich.moveables.push(babyduck2);
                 }
             }
+        }
+        if (!isBabyduckClicked) {
+            let food = new Ententeich.Food(clickX, clickY, "brown");
+            Ententeich.foods.push(food);
+            food.assignClosestDuck();
         }
     }
 })(Ententeich || (Ententeich = {}));

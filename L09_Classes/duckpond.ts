@@ -2,7 +2,8 @@ namespace Ententeich {
     window.addEventListener("load", handleLoad)
 
     export let crc2: CanvasRenderingContext2D;
-    let moveables: Moveable[] = [];
+    export let moveables: Moveable[] = [];
+    export let foods: Food[] = [];
 
 
 
@@ -21,16 +22,9 @@ namespace Ententeich {
         canvas.addEventListener("pointerdown", createBabyduck)
 
 
+
         drawBackground();
         setInterval(animate, 40);
-
-        /* let babyduck: Babyduck = new Babyduck(10, 480, "red")
-        babyduck.draw();
-        moveables.push(babyduck);
-
-        let babyduck2: Babyduck = new Babyduck(50, 480, "red")
-        babyduck2.draw();
-        moveables.push(babyduck2); */
 
         let duck: Duck = new Duck(10, 405, "yellow");
         duck.draw();
@@ -47,6 +41,8 @@ namespace Ententeich {
         let bee2: Bee = new Bee(0, 500, "yellow");
         bee.draw();
         moveables.push(bee2);
+
+
     }
 
     function animate(): void {
@@ -54,7 +50,9 @@ namespace Ententeich {
         for (let i: number = 0; i < moveables.length; i++) {
             moveables[i].move();
             moveables[i].draw();
-
+        }
+        for (let n: number = 0; n < foods.length; n++) {
+            foods[n].draw();
         }
         drawTree();
     }
@@ -185,25 +183,32 @@ namespace Ententeich {
         crc2.fill();
         crc2.restore();
     }
-    function createBabyduck(_event: PointerEvent) {
+    function createBabyduck(_event: PointerEvent): void {
+        let isBabyduckClicked = false;
+        let clickX: number = _event.clientX - crc2.canvas.offsetLeft;
+        let clickY: number = _event.clientY - crc2.canvas.offsetTop;
+
         for (let moveable of moveables) {
             if (moveable instanceof Duck) {
-                let clickX: number = _event.clientX
-                let clickY: number = _event.clientY
-
                 if (moveable.x < clickX && clickX < moveable.x + 100 && moveable.y < clickY && clickY < moveable.y + 50) {
-
-                    let babyduck: Babyduck = new Babyduck(clickX + 10, clickY + 20, "red")
-                    babyduck.draw();
+                    isBabyduckClicked = true;
+                    let babyduck: Babyduck = new Babyduck(clickX + 10, clickY + 20, "red");
                     moveables.push(babyduck);
 
-                    let babyduck2: Babyduck = new Babyduck(clickX + 30, clickY + 40, "red")
-                    babyduck2.draw();
+                    let babyduck2: Babyduck = new Babyduck(clickX + 30, clickY + 40, "red");
                     moveables.push(babyduck2);
                 }
             }
         }
+        if (!isBabyduckClicked) {
+            let food: Food = new Food(clickX, clickY, "brown");
+            foods.push(food);
 
+            food.assignClosestDuck();
+        }
     }
+
 }
+
+
 
